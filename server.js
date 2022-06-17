@@ -7,6 +7,7 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// Sets up connection to the database
 const db = mysql.createConnection(
   {
     host: 'localhost',
@@ -17,13 +18,17 @@ const db = mysql.createConnection(
   console.log('Connected to the election database.')
 );
 
-
 app.get('/', (req, res) => {
   res.json({
     message: 'Hello World'
   });
 });
 
+db.query('SELECT * FROM candidates', (err, rows) => {
+  console.log(rows);
+});
+
+// Catch all route
 app.use((req, res) => {
   res.status(404).end();
 });
